@@ -38,7 +38,15 @@ public class HttpResponse {
 
 	/* First read status line and response headers */
 	try {
-	    String line =  fromServer.readLine();/* COMPLETE ME: read the status line from the socket using the readLine() function */;
+		// BufferedReader d
+        //   = new BufferedReader(new InputStreamReader(fromServer));
+	    // String line =  d.readLine();
+		String line = fromServer.readLine();
+
+		
+		
+		/* COMPLETE ME: read the status line from the socket using the readLine() function */;
+
 	    while (line.length() != 0) {
 		if (!gotStatusLine) {
 		    statusLine = line;
@@ -47,6 +55,8 @@ public class HttpResponse {
 		    headers += line + CRLF;
 		}
 
+		// line = fromServer.readLine();
+
 		/** COMPLETE ME: 
 		 * Get the length of content as indicated by the "Content-Length" header. Unfortunately, this is not 
 		 * present in every response. Some servers return the header "Content-Length", others return 
@@ -54,8 +64,14 @@ public class HttpResponse {
 		 * 
 		 * Assign the content length to the length variable (line 36)
 		 * */
-		 
-		line = fromServer.readLine();
+		if (line.contains("Content-Length")){
+			length = Integer.parseInt(line.substring(line.indexOf("Content-Length: ") + 16));
+		}else if (line.contains("Content-length")){
+			length = Integer.parseInt(line.substring(line.indexOf("Content-length: ") + 16));
+		}
+		    //
+	
+
 	    }
 	} catch (IOException e) {
 	    System.out.println("Error reading headers from server: " + e);
@@ -82,7 +98,9 @@ public class HttpResponse {
 	    while (bytesRead < length || loop) {
 			
 		/* Read it in as binary data */
-		int res = /* COMPLETE ME: read data into buf using the read() function */;
+		//done?
+		/* COMPLETE ME: read data into buf using the read() function */
+		int res = fromServer.read(buf, 0, BUF_SIZE);
 		if (res == -1) {
 		    break;
 		}

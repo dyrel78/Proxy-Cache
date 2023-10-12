@@ -33,15 +33,15 @@ public class HttpRequest {
 
 		String[] tmp = firstLine.split(" ");
 
-		if (tmp.length != 3) {
-			System.out.println("Error: Invalid request line: " + firstLine);
-			return;
-		} else {
+		// if (tmp.length != 3) {
+		// 	System.out.println("Error: Invalid request line: " + firstLine);
+		// 	return;
+		// } else {
 			method = tmp[0];
 			URI = tmp[1];
 			version = tmp[2];
 
-		}
+		//}
 		/// Done
 
 		// method = /* COMPLETE ME: extract the method from the first line */;
@@ -56,28 +56,24 @@ public class HttpRequest {
 			while (line.length() != 0) {
 			headers += line + CRLF;
 
-			/* We need to find host header to know which server to
-			 * contact in case the request URI is not complete. */
-			if(line.startsWith("Host:"))
+				if(line.startsWith("Host:"))
 			{
-				tmp = line.split(" ");
-
-				//Returns the value of the 
-
-				if(tmp[1].indexOf(':')>0)
-				{
-					String[] tmp2 = tmp[1].split(":");
-					host = tmp2[0];
-					port = Integer.parseInt(tmp2[1]);
-				}
-				else
-				{
-					host = tmp[1];
-					port = HTTP_PORT;
-				}
-
+				tmp = line.split(" ")[1].split(":");
+					host = tmp[0];
+					if( tmp.length>1){
+					port = Integer.parseInt(tmp[1]);
+					}else{
+						port = HTTP_PORT;
+					}
+			
 
 			}
+			
+			line = from.readLine();
+			/* We need to find host header to know which server to
+			 * contact in case the request URI is not complete. */
+		
+
 			/* COMPLETE ME: from the headers of the request, find the name of the server and its port number *
 			
 
@@ -114,7 +110,6 @@ public class HttpRequest {
 			// }
 
 			
-			// line = from.readLine();
 
 			//co pilot
 
